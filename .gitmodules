@@ -6,3 +6,7 @@
 	path = login
 	url = https://github.com/M0nicaVaz/mfe-login.git
 	branch = main
+[submodule "shared"]
+	path = shared
+	url = https://github.com/M0nicaVaz/mfe-shared.git
+	branch = main
