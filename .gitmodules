@@ -1,0 +1,8 @@
+[submodule "home"]
+	path = home
+	url = https://github.com/M0nicaVaz/mfe-home.git
+	branch = main
+[submodule "login"]
+	path = login
+	url = https://github.com/M0nicaVaz/mfe-login.git
+	branch = main
