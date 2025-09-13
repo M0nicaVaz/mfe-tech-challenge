@@ -1,0 +1,12 @@
+.git
+.gitmodules
+.github
+**/node_modules
+**/.next
+**/dist
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+.env*
+Dockerfile*
+docker-compose*.yml
