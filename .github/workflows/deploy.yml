@@ -23,7 +23,13 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: home/package-lock.json
+          cache-dependency-path: |
+            home/package-lock.json
+            shared/package-lock.json
+
+      - name: Install deps (shared)
+        working-directory: shared
+        run: npm install
 
       - name: Install deps (home)
         working-directory: home
@@ -94,7 +100,13 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: login/package-lock.json
+          cache-dependency-path: |
+            login/package-lock.json
+            shared/package-lock.json
+
+      - name: Install deps (shared)
+        working-directory: shared
+        run: npm install
 
       - name: Install deps (login)
         working-directory: login
