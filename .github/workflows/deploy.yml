@@ -27,6 +27,9 @@ jobs:
             home/package-lock.json
             shared/package-lock.json
 
+      - name: Install deps (root)
+        run: npm install
+
       - name: Install deps (shared)
         working-directory: shared
         run: npm install
@@ -103,6 +106,9 @@ jobs:
           cache-dependency-path: |
             login/package-lock.json
             shared/package-lock.json
+
+      - name: Install deps (root)
+        run: npm install
 
       - name: Install deps (shared)
         working-directory: shared
