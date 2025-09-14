@@ -78,10 +78,14 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_HOME }}
         run: |
-          output=$(vercel deploy --prebuilt --prod --yes --json --token=$VERCEL_TOKEN)
-          echo "$output" | tee deployment_home.json
-          url=$(jq -r '.url' deployment_home.json)
-          echo "url=https://$url" >> $GITHUB_OUTPUT
+          set -euo pipefail
+          output=$(vercel deploy --prebuilt --prod --yes --token=$VERCEL_TOKEN | tee deployment_home.log)
+          url=$(echo "$output" | grep -Eo 'https://[A-Za-z0-9.-]+\.vercel\.app' | head -n 1)
+          if [ -z "$url" ]; then
+            echo "Failed to parse deployment URL from Vercel output" >&2
+            exit 1
+          fi
+          echo "url=$url" >> $GITHUB_OUTPUT
 
       - name: Set URL output
         id: set_url
