@@ -36,13 +36,20 @@ jobs:
         id: set_env
         run: echo "VERCEL_ENV=${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}" >> $GITHUB_ENV
 
+      - name: Link project (home)
+        working-directory: home
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_HOME }}
+        run: vercel link --yes --project $VERCEL_PROJECT_ID --token=$VERCEL_TOKEN
+
       - name: Vercel pull (env)
         working-directory: home
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_HOME }}
-        run: vercel pull --yes --environment=$VERCEL_ENV
+        run: vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
 
       - name: Build (home)
         working-directory: home
@@ -50,7 +57,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_HOME }}
-        run: vercel build
+        run: vercel build --token=$VERCEL_TOKEN
 
       - name: Deploy (home) - production
         if: github.ref == 'refs/heads/main'
@@ -61,7 +68,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_HOME }}
         run: |
-          output=$(vercel deploy --prebuilt --prod --yes --json)
+          output=$(vercel deploy --prebuilt --prod --yes --json --token=$VERCEL_TOKEN)
           echo "$output" | tee deployment_home.json
           url=$(jq -r '.url' deployment_home.json)
           echo "url=https://$url" >> $GITHUB_OUTPUT
@@ -99,13 +106,20 @@ jobs:
         id: set_env
         run: echo "VERCEL_ENV=${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}" >> $GITHUB_ENV
 
+      - name: Link project (login)
+        working-directory: login
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_LOGIN }}
+        run: vercel link --yes --project $VERCEL_PROJECT_ID --token=$VERCEL_TOKEN
+
       - name: Vercel pull (env)
         working-directory: login
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_LOGIN }}
-        run: vercel pull --yes --environment=$VERCEL_ENV
+        run: vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
 
       - name: Build (login)
         working-directory: login
@@ -114,7 +128,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_LOGIN }}
           NEXT_PUBLIC_HOME_URL: ${{ needs.deploy_home.outputs.home_url }}
-        run: vercel build
+        run: vercel build --token=$VERCEL_TOKEN
 
       - name: Deploy (login) - production
         if: github.ref == 'refs/heads/main'
@@ -123,4 +137,4 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_LOGIN }}
-        run: vercel deploy --prebuilt --prod --yes
+        run: vercel deploy --prebuilt --prod --yes --token=$VERCEL_TOKEN
