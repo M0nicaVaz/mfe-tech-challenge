@@ -1,0 +1,7 @@
+{
+  "routes": [
+    { "src": "/", "dest": "/login$1" },
+    { "src": "/home(.*)", "dest": "/home$1" },
+    { "src": "/login(.*)", "dest": "/login$1" }
+  ]
+}
