@@ -67,7 +67,12 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_HOME }}
-        run: vercel build --token=$VERCEL_TOKEN
+        run: |
+          if [ "$VERCEL_ENV" = "production" ]; then
+            vercel build --prod --token=$VERCEL_TOKEN
+          else
+            vercel build --token=$VERCEL_TOKEN
+          fi
 
       - name: Deploy (home) - production
         if: github.ref == 'refs/heads/main'
@@ -152,7 +157,12 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_LOGIN }}
           NEXT_PUBLIC_HOME_URL: ${{ needs.deploy_home.outputs.home_url }}
-        run: vercel build --token=$VERCEL_TOKEN
+        run: |
+          if [ "$VERCEL_ENV" = "production" ]; then
+            vercel build --prod --token=$VERCEL_TOKEN
+          else
+            vercel build --token=$VERCEL_TOKEN
+          fi
 
       - name: Deploy (login) - production
         if: github.ref == 'refs/heads/main'
