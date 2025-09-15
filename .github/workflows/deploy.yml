@@ -180,6 +180,16 @@ jobs:
             echo "VERCEL_ENV=${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}" >> $GITHUB_ENV
           fi
 
+      - name: Select HOME_URL for login
+        run: |
+          if [ "$VERCEL_ENV" = "production" ]; then
+            # Use stable default domain for Home in production (set this secret to e.g. https://mfe-tech-challenge-cfqw.vercel.app)
+            echo "HOME_URL=${{ secrets.PROD_HOME_URL }}" >> $GITHUB_ENV
+          else
+            # Use freshly deployed Home preview URL
+            echo "HOME_URL=${{ needs.deploy_home.outputs.home_url }}" >> $GITHUB_ENV
+          fi
+
       - name: Link project (login)
         working-directory: login
         env:
@@ -202,7 +212,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_LOGIN }}
-          NEXT_PUBLIC_HOME_URL: ${{ needs.deploy_home.outputs.home_url }}
+          NEXT_PUBLIC_HOME_URL: ${{ env.HOME_URL }}
         run: |
           if [ "$VERCEL_ENV" = "production" ]; then
             vercel build --prod --token=$VERCEL_TOKEN
