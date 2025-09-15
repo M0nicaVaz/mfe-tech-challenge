@@ -74,6 +74,24 @@ jobs:
             vercel build --token=$VERCEL_TOKEN
           fi
 
+      - name: Deploy (home) - preview
+        if: github.ref != 'refs/heads/main'
+        id: deploy_preview
+        working-directory: home
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_HOME }}
+        run: |
+          set -euo pipefail
+          output=$(vercel deploy --prebuilt --yes --token=$VERCEL_TOKEN | tee deployment_home_preview.log)
+          url=$(echo "$output" | grep -Eo 'https://[A-Za-z0-9.-]+\.vercel\.app' | head -n 1)
+          if [ -z "$url" ]; then
+            echo "Failed to parse preview deployment URL from Vercel output" >&2
+            exit 1
+          fi
+          echo "url=$url" >> $GITHUB_OUTPUT
+
       - name: Deploy (home) - production
         if: github.ref == 'refs/heads/main'
         id: deploy_prod
