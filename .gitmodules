@@ -1,12 +1,12 @@
 [submodule "home"]
 	path = home
-	url = https://github.com/M0nicaVaz/mfe-home.git
+	url = git@github.com:M0nicaVaz/mfe-home.git
 	branch = main
 [submodule "login"]
 	path = login
-	url = https://github.com/M0nicaVaz/mfe-login.git
+	url = git@github.com:M0nicaVaz/mfe-login.git
 	branch = main
 [submodule "shared"]
 	path = shared
-	url = https://github.com/M0nicaVaz/mfe-shared.git
+	url = git@github.com:M0nicaVaz/mfe-shared.git
 	branch = main
