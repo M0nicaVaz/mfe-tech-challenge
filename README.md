@@ -42,5 +42,3 @@ Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. 
 
 - Importações compartilhadas: use `shared` (pacote local em `shared/`).
 - Para componentes com eventos (ex.: `onClick`), use `"use client"` no topo do arquivo.
-
-
