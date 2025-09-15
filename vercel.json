@@ -1,6 +1,6 @@
 {
   "routes": [
-    { "src": "/", "dest": "/login$1" },
+    { "source": "/(.*)", "destination": "/" },
     { "src": "/home(.*)", "dest": "/home$1" },
     { "src": "/login(.*)", "dest": "/login$1" }
   ]
