@@ -1,7 +1,3 @@
 {
-  "routes": [
-    { "src": "/(.*)", "dest": "/" },
-    { "src": "/home(.*)", "dest": "/home$1" },
-    { "src": "/login(.*)", "dest": "/login$1" }
-  ]
+  "routes": [{ "src": "/(.*)", "dest": "/" }]
 }
