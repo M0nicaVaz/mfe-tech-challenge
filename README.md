@@ -11,6 +11,8 @@ Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. 
 3. Instale dependências por mfe:
    - Terminal 1: `cd home && npm install`
    - Terminal 2: `cd login && npm install`
+   - Terminal 3: `cd shared && npm install`
+   - Terminal 4: `cd .. && npm install` (root)
 4. Suba os servidores de desenvolvimento:
    - Terminal 1 (home, porta 4444): `cd home && npm run dev`
    - Terminal 2 (login, porta 7777): `cd login && npm run dev`
@@ -19,11 +21,13 @@ Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. 
 
 ## Como rodar (com Docker)
 
-1. Build da imagem:
+1. Inicialize os submodulos(mfe):
+   - `git submodule update --init --recursive`
+2. Build da imagem:
    - `docker build -t mfe-finance .`
-2. Rodar o container (mapeando as portas das zonas):
+3. Rodar o container (mapeando as portas das zonas):
    - `docker run --rm -p 7777:7777 -p 4444:4444 mfe-finance`
-3. Acesse:
+4. Acesse:
    - Login: `http://localhost:7777`
    - Home: `http://localhost:4444`
 
