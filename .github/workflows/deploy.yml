@@ -28,6 +28,12 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      - name: Force Vercel git author to trusted account
+        run: |
+          echo "VERCEL_GIT_COMMIT_AUTHOR_LOGIN=${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "VERCEL_GIT_COMMIT_AUTHOR_NAME=${{ github.repository_owner }} (via GitHub Actions)" >> $GITHUB_ENV
+          echo "VERCEL_GIT_COMMIT_AUTHOR_EMAIL=${{ github.repository_owner }}@users.noreply.github.com" >> $GITHUB_ENV
+
       - name: Setup Node 20
         uses: actions/setup-node@v4
         with:
@@ -143,6 +149,12 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+
+      - name: Force Vercel git author to trusted account
+        run: |
+          echo "VERCEL_GIT_COMMIT_AUTHOR_LOGIN=${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "VERCEL_GIT_COMMIT_AUTHOR_NAME=${{ github.repository_owner }} (via GitHub Actions)" >> $GITHUB_ENV
+          echo "VERCEL_GIT_COMMIT_AUTHOR_EMAIL=${{ github.repository_owner }}@users.noreply.github.com" >> $GITHUB_ENV
 
       - name: Setup Node 20
         uses: actions/setup-node@v4
