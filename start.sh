@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e
 
+# Start API on 5555
+cd /app/api
+npm run dev -- --hostname 0.0.0.0 &
+
 # Start HOME on 4444
 cd /app/home
 npm run dev -- --hostname 0.0.0.0 &
@@ -11,4 +15,3 @@ npm run dev -- --hostname 0.0.0.0 &
 
 # Wait for both to finish (keeps container running)
 wait
-
