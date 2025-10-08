@@ -19,17 +19,17 @@ Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. 
 5. Acesse a aplicação pelo host `login`:
    - `http://localhost:7777`
 
-## Como rodar (com Docker)
+## Como rodar (com Docker Compose)
 
 1. Inicialize os submodulos(mfe):
    - `git submodule update --init --recursive`
-2. Build da imagem:
-   - `docker build -t mfe-finance .`
-3. Rodar o container (mapeando as portas das zonas):
-   - `docker run --rm -p 7777:7777 -p 4444:4444 mfe-finance`
-4. Acesse:
+2. Suba todos os serviços:
+   - `docker-compose up`
+3. Acesse:
    - Login: `http://localhost:7777`
    - Home: `http://localhost:4444`
+4. Para parar:
+   - `docker-compose down`
 
 ## Estrutura
 
