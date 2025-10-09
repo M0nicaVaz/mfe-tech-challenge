@@ -10,9 +10,9 @@ COPY login/package*.json login/
 COPY shared/package*.json shared/
 COPY shared shared
 
-RUN cd home && npm install && cd ../login && npm install
+RUN cd shared && npm install && cd ../home && npm install && cd ../login && npm install
 
-COPY . . 
+COPY . .
 
 EXPOSE 7777 4444
 
