@@ -1,10 +1,10 @@
 # Monorepo MFE (Next.js 15)
 
-Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. A pasta `shared` guarda código compartilhado (componentes e tipos) e pode ser usada como submódulo Git. O pacote `api` expõe um backend Next.js simples em memória para persistir transações.
+Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. A pasta `shared` guarda código compartilhado (componentes e tipos) e o pacote `api` expõe um backend Next.js simples em memória para persistir transações.
 
 ## Como rodar (sem Docker)
 
-1. Inicialize os submodulos(mfe):
+1. Inicialize os submódulos (mfe):
    - `git submodule update --init --recursive`
 2. Variáveis de ambiente:
    - Copie `login/.env.example` para `login/.env` e ajuste valores se necessário.
@@ -24,15 +24,18 @@ Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. 
 
 ## Como rodar (com Docker)
 
-1. Inicialize os submodulos(mfe):
+1. Inicialize os submódulos (mfe):
    - `git submodule update --init --recursive`
-2. Build da imagem:
+2. Para subir tudo com Docker Compose:
+   - `docker-compose up`
+3. Para construir/rodar uma imagem única:
    - `docker build -t mfe-finance .`
-3. Rodar o container (mapeando as portas das zonas):
    - `docker run --rm -p 7777:7777 -p 4444:4444 -p 5555:5555 mfe-finance`
 4. Acesse:
    - Login: `http://localhost:7777`
    - Home: `http://localhost:4444`
+5. Para parar os serviços do Compose:
+   - `docker-compose down`
 
 ## Estrutura
 

@@ -1,0 +1,49 @@
+services:
+  shared:
+    build:
+      context: ./shared
+      dockerfile: Dockerfile
+    volumes:
+      - ./shared:/app
+      - /app/node_modules
+    container_name: mfe-shared
+
+  home:
+    build:
+      context: ./home
+      dockerfile: Dockerfile
+    ports:
+      - "4444:4444"
+    volumes:
+      - ./home:/app
+      - ./shared:/app/../shared
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - shared
+    container_name: mfe-home
+    stdin_open: true
+    tty: true
+
+  login:
+    build:
+      context: ./login
+      dockerfile: Dockerfile
+    ports:
+      - "7777:7777"
+    volumes:
+      - ./login:/app
+      - ./shared:/app/../shared
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_HOME_URL=http://home:4444
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - shared
+      - home
+    container_name: mfe-login
+    stdin_open: true
+    tty: true

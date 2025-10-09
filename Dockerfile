@@ -13,11 +13,12 @@ COPY api/package*.json api/
 COPY shared/package*.json shared/
 COPY shared shared
 
-RUN cd home && npm install && \
+RUN cd shared && npm install && \
+    cd ../home && npm install && \
     cd ../login && npm install && \
     cd ../api && npm install
 
-COPY . . 
+COPY . .
 
 EXPOSE 7777 4444 5555
 
