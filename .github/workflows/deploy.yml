@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       api_url: ${{ steps.set_url.outputs.url }}
+      api_origin: ${{ steps.set_url.outputs.origin }}
     steps:
       - name: Checkout (with submodules)
         uses: actions/checkout@v4
@@ -131,7 +132,19 @@ jobs:
 
       - name: Set URL output
         id: set_url
-        run: echo "url=${{ steps.deploy_preview.outputs.url || steps.deploy_prod.outputs.url }}" >> $GITHUB_OUTPUT
+        run: |
+          raw_url="${{ steps.deploy_preview.outputs.url || steps.deploy_prod.outputs.url }}"
+          if [ -z "$raw_url" ]; then
+            echo "Failed to determine deployment URL" >&2
+            exit 1
+          fi
+
+          # Remove trailing slashes for consistency
+          trimmed="${raw_url%/}"
+          origin="${trimmed:-$raw_url}"
+
+          echo "origin=$origin" >> $GITHUB_OUTPUT
+          echo "url=${origin}/api" >> $GITHUB_OUTPUT
 
   deploy_home:
     name: Deploy Home
@@ -184,10 +197,30 @@ jobs:
 
       - name: Select API URL for home
         run: |
+          normalize_api_url() {
+            local url="$1"
+            if [ -z "$url" ]; then
+              echo "API URL cannot be empty" >&2
+              exit 1
+            fi
+
+            # Strip trailing slashes
+            while [ "${url%/}" != "$url" ]; do
+              url="${url%/}"
+            done
+
+            case "$url" in
+              */api) ;;
+              *) url="${url}/api" ;;
+            esac
+
+            printf '%s\n' "$url"
+          }
+
           if [ "$VERCEL_ENV" = "production" ]; then
-            echo "NEXT_PUBLIC_API_URL=${{ secrets.PROD_API_URL }}" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_API_URL=$(normalize_api_url '${{ secrets.PROD_API_URL }}')" >> $GITHUB_ENV
           else
-            echo "NEXT_PUBLIC_API_URL=${{ needs.deploy_api.outputs.api_url }}" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_API_URL=$(normalize_api_url '${{ needs.deploy_api.outputs.api_url }}')" >> $GITHUB_ENV
           fi
 
       - name: Link project (home)
@@ -263,7 +296,9 @@ jobs:
   deploy_login:
     name: Deploy Login
     runs-on: ubuntu-latest
-    needs: deploy_home
+    needs:
+      - deploy_home
+      - deploy_api
     steps:
       - name: Checkout (with submodules)
         uses: actions/checkout@v4
@@ -317,6 +352,33 @@ jobs:
             echo "HOME_URL=${{ needs.deploy_home.outputs.home_url }}" >> $GITHUB_ENV
           fi
 
+      - name: Select API URL for login
+        run: |
+          normalize_api_url() {
+            local url="$1"
+            if [ -z "$url" ]; then
+              echo "API URL cannot be empty" >&2
+              exit 1
+            fi
+
+            while [ "${url%/}" != "$url" ]; do
+              url="${url%/}"
+            done
+
+            case "$url" in
+              */api) ;;
+              *) url="${url}/api" ;;
+            esac
+
+            printf '%s\n' "$url"
+          }
+
+          if [ "$VERCEL_ENV" = "production" ]; then
+            echo "NEXT_PUBLIC_API_URL=$(normalize_api_url '${{ secrets.PROD_API_URL }}')" >> $GITHUB_ENV
+          else
+            echo "NEXT_PUBLIC_API_URL=$(normalize_api_url '${{ needs.deploy_api.outputs.api_url }}')" >> $GITHUB_ENV
+          fi
+
       - name: Link project (login)
         working-directory: login
         env:
@@ -340,6 +402,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_LOGIN }}
           NEXT_PUBLIC_HOME_URL: ${{ env.HOME_URL }}
+          NEXT_PUBLIC_API_URL: ${{ env.NEXT_PUBLIC_API_URL }}
         run: |
           if [ "$VERCEL_ENV" = "production" ]; then
             vercel build --prod --token=$VERCEL_TOKEN
