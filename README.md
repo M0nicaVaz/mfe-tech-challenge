@@ -9,6 +9,7 @@ Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. 
 2. Variáveis de ambiente:
    - Copie `login/.env.example` para `login/.env` e ajuste valores se necessário.
    - Copie `home/.env.example` para `home/.env.local` (ou `.env`) e confirme `NEXT_PUBLIC_API_URL`.
+   - (Opcional) defina variáveis para `api/.env.local` caso deseje customizar `CORS_ALLOW_ORIGIN` ou `NEXT_PUBLIC_HOME_URL`.
 3. Instale dependências por pacote:
    - Terminal 1: `cd home && npm install`
    - Terminal 2: `cd login && npm install`
@@ -28,6 +29,7 @@ Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. 
    - `git submodule update --init --recursive`
 2. Para subir tudo com Docker Compose:
    - `docker-compose up`
+   - O serviço `api` expõe `NEXT_PUBLIC_HOME_URL` e `CORS_ALLOW_ORIGIN` via `docker-compose.yml`; ajuste conforme necessário.
 3. Para construir/rodar uma imagem única:
    - `docker build -t mfe-finance .`
    - `docker run --rm -p 7777:7777 -p 4444:4444 -p 5555:5555 mfe-finance`

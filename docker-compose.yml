@@ -8,6 +8,27 @@ services:
       - /app/node_modules
     container_name: mfe-shared
 
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./api:/app
+      - ./shared:/app/../shared
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+      - NEXT_PUBLIC_HOME_URL=http://localhost:4444
+      - CORS_ALLOW_ORIGIN=http://localhost:4444,http://localhost:7777
+    depends_on:
+      - shared
+    container_name: mfe-api
+    stdin_open: true
+    tty: true
+
   home:
     build:
       context: ./home
@@ -20,9 +41,11 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:5555/api
       - WATCHPACK_POLLING=true
     depends_on:
       - shared
+      - api
     container_name: mfe-home
     stdin_open: true
     tty: true
@@ -44,6 +67,7 @@ services:
     depends_on:
       - shared
       - home
+      - api
     container_name: mfe-login
     stdin_open: true
     tty: true
