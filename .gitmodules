@@ -13,3 +13,8 @@
 	url = git@github.com:M0nicaVaz/mfe-shared.git
 	branch = main
 	ignore = all
+[submodule "api"]
+	path = api
+	url = git@github.com:M0nicaVaz/mfe-api.git
+	branch = main
+	ignore = all
