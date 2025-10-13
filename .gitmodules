@@ -2,19 +2,15 @@
 	path = home
 	url = git@github.com:M0nicaVaz/mfe-home.git
 	branch = main
-	ignore = all
 [submodule "login"]
 	path = login
 	url = git@github.com:M0nicaVaz/mfe-login.git
 	branch = main
-	ignore = all
 [submodule "shared"]
 	path = shared
 	url = git@github.com:M0nicaVaz/mfe-shared.git
 	branch = main
-	ignore = all
 [submodule "api"]
 	path = api
 	url = git@github.com:M0nicaVaz/mfe-api.git
 	branch = main
-	ignore = all
