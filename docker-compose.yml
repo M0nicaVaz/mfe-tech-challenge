@@ -21,8 +21,8 @@ services:
     environment:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true
-      - NEXT_PUBLIC_HOME_URL=http://localhost:4444
-      - CORS_ALLOW_ORIGIN=http://localhost:4444,http://localhost:7777
+      - NEXT_PUBLIC_HOME_URL=http://home:4444
+      - CORS_ALLOW_ORIGIN=*
     depends_on:
       - shared
     container_name: mfe-api
