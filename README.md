@@ -1,45 +1,70 @@
-# Monorepo MFE (Next.js 15)
+# Bytebank - Tech Challenge parte 2
 
-Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. A pasta `shared` guarda código compartilhado (componentes e tipos) e o pacote `api` expõe um backend Next.js simples em memória para persistir transações.
+> Portal de serviços financeiros com arquitetura de micro front-end utilizando Next.js e Docker.
 
-## Como rodar (sem Docker)
+## Sumário
 
-1. Inicialize os submódulos (mfe):
-   - `git submodule update --init --recursive`
-2. Variáveis de ambiente:
-   - Copie `login/.env.example` para `login/.env` e ajuste valores se necessário.
-   - Copie `home/.env.example` para `home/.env.local` (ou `.env`) e confirme `NEXT_PUBLIC_API_URL`.
-   - (Opcional) defina variáveis para `api/.env.local` caso deseje customizar `CORS_ALLOW_ORIGIN` ou `NEXT_PUBLIC_HOME_URL`.
-3. Instale dependências por pacote:
-   - Terminal 1: `cd home && npm install`
-   - Terminal 2: `cd login && npm install`
-   - Terminal 3: `cd shared && npm install`
-   - Terminal 4: `cd api && npm install`
-   - Terminal 5: `cd .. && npm install` (root)
-4. Suba os servidores de desenvolvimento:
-   - Terminal 1 (api, porta 5555): `cd api && npm run dev`
-   - Terminal 2 (home, porta 4444): `cd home && npm run dev`
-   - Terminal 3 (login, porta 7777): `cd login && npm run dev`
-5. Acesse a aplicação pelo host `login`:
-   - `http://localhost:7777`
+- [Instalação](#instalação)
+- [Arquitetura](#arquitetura)
+- [Tecnologias](#tecnologias-principais)
+- [Features](#features-implementadas)
+- [Ambientes](#ambientes)
 
-## Como rodar (com Docker)
+## Instalação
 
-1. Inicialize os submódulos (mfe):
-   - `git submodule update --init --recursive`
-2. Para subir tudo com Docker Compose:
-   - `docker-compose up`
-   - O serviço `api` expõe `NEXT_PUBLIC_HOME_URL` e `CORS_ALLOW_ORIGIN` via `docker-compose.yml`; ajuste conforme necessário.
-3. Para construir/rodar uma imagem única:
-   - `docker build -t mfe-finance .`
-   - `docker run --rm -p 7777:7777 -p 4444:4444 -p 5555:5555 mfe-finance`
-4. Acesse:
-   - Login: `http://localhost:7777`
-   - Home: `http://localhost:4444`
+### Pré-requisitos
+
+- Docker
+- Docker Compose
+
+### Passo a passo
+
+1. Clone o repositório
+
+```bash
+git clone [url-do-repositorio]
+```
+
+2. Inicialize os submódulos (MFE):
+
+```bash
+git submodule update --init --recursive`
+```
+
+3. Para subir tudo com Docker Compose:
+
+```bash
+docker-compose up
+```
+
+- O serviço `api` expõe `NEXT_PUBLIC_HOME_URL` e `CORS_ALLOW_ORIGIN` via `docker-compose.yml`. Ajuste conforme necessário.
+
+4. Para construir/rodar uma imagem única:
+
+```bash
+docker build -t mfe-finance .
+docker run --rm -p 7777:7777 -p 4444:4444 -p 5555:5555 mfe-finance
+```
+
 5. Para parar os serviços do Compose:
-   - `docker-compose down`
 
-## Estrutura
+```
+docker-compose down
+```
+
+### Acessando as aplicações
+
+| Serviço | URL                   |
+| ------- | --------------------- |
+| Login   | http://localhost:7777 |
+| Home    | http://localhost:4444 |
+
+## Arquitetura
+
+- **Home**: Frontend principal
+- **API**: Backend com serviços REST
+- **Login**: Módulo de autenticação
+- **Shared**: Biblioteca compartilhada
 
 ```
 / (raiz)
@@ -51,8 +76,42 @@ Este repositório contém MFE (microfrontends) em Next.js 15: `login` e `home`. 
   README.md
 ```
 
-## Desenvolvimento
+## Tecnologias Principais
 
-- Importações compartilhadas: use `shared` (pacote local em `shared/`).
-- Para componentes com eventos (ex.: `onClick`), use `"use client"` no topo do arquivo.
-- Tipagens de transações ficam em `shared/types/transaction.ts` e são reutilizadas por `home` e `api`.
+### Frontend
+
+- ![Next.js](https://img.shields.io/badge/Next.js-15.5.3-000000?style=flat-square&logo=next.js)
+- ![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat-square&logo=react)
+- ![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6?style=flat-square&logo=typescript)
+- ![Sass](https://img.shields.io/badge/Sass-1.92.1-CC6699?style=flat-square&logo=sass)
+
+### Backend
+
+- ![Next.js API](https://img.shields.io/badge/Next.js-15.5.3-000000?style=flat-square&logo=next.js)
+- ![Docker](https://img.shields.io/badge/Docker-20.x-2496ED?style=flat-square&logo=docker)
+
+## Features Implementadas ✨
+
+- [x] Arquitetura de microsserviços
+- [x] Containerização com Docker
+- [x] Sistema de autenticação
+- [x] API REST
+- [x] Estilização com TailwindCSS
+- [x] Configuração de ESLint
+- [x] Ambiente de desenvolvimento isolado
+- [x] Acessibilidade adequada ao Lighthouse
+
+## Ambientes
+
+| Ambiente        | Comando/URL                                                |
+| --------------- | ---------------------------------------------------------- |
+| Desenvolvimento | `docker-compose up`                                        |
+| Produção        | [Deploy via Vercel](https://mfe-tech-challenge.vercel.app) |
+
+## Desenvolvido por
+
+- [Gabriel Del Cesare Barros](https://github.com/gabriel-del)
+- [Igor Oliveira Bitarães](https://github.com/bitaraes)
+- [Maria Carolina Pereira de Mello Rosatto](https://github.com/carolinarosatto)
+- [Monica Silva Nogueira Vaz](https://github.com/M0nicaVaz)
+- [Thiago Cardoso de Souza Lopes](https://github.com/thiagocardososlopes)
