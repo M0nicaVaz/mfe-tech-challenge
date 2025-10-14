@@ -66,7 +66,7 @@ docker-compose down
 
 ## Arquitetura
 
-- **Home**: Frontend principal (Dashboard e listagem)
+- **Home**: Frontend principal (Dashboard, listagem e customização)
 - **API**: Backend com serviços REST
 - **Login**: Módulo de autenticação
 - **Shared**: Biblioteca compartilhada
@@ -108,6 +108,8 @@ docker-compose down
 - [x] Ambiente de desenvolvimento isolado
 - [x] Acessibilidade adequada ao Lighthouse
 - [x] Gerenciamento de estado com Zustand
+- [x] Dashboard com Chart.js
+- [x] Customização de Dashboard (ordem, retirar ou adicionar gráficos)
 - [x] Pipeline com GitHub actions
 
 ## Ambientes
