@@ -4,11 +4,16 @@
 
 ## Sumário
 
+- [Produção](#produção)
 - [Instalação](#instalação)
 - [Arquitetura](#arquitetura)
 - [Tecnologias](#tecnologias-principais)
 - [Features](#features-implementadas)
 - [Ambientes](#ambientes)
+
+## Produção
+
+- [Ver projeto](https://mfe-tech-challenge.vercel.app)
 
 ## Instalação
 
@@ -61,7 +66,7 @@ docker-compose down
 
 ## Arquitetura
 
-- **Home**: Frontend principal
+- **Home**: Frontend principal (Dashboard e listagem)
 - **API**: Backend com serviços REST
 - **Login**: Módulo de autenticação
 - **Shared**: Biblioteca compartilhada
@@ -84,22 +89,26 @@ docker-compose down
 - ![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat-square&logo=react)
 - ![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6?style=flat-square&logo=typescript)
 - ![Sass](https://img.shields.io/badge/Sass-1.92.1-CC6699?style=flat-square&logo=sass)
+- ![Zuatand](https://img.shields.io/badge/Zustand-5.0.2-602c3c?style=flat)
 
 ### Backend
 
 - ![Next.js API](https://img.shields.io/badge/Next.js-15.5.3-000000?style=flat-square&logo=next.js)
 - ![Docker](https://img.shields.io/badge/Docker-20.x-2496ED?style=flat-square&logo=docker)
+- ![SQLite](https://img.shields.io/badge/Better%20SQLite3-4169E1?style=flat&logo=sqlite)
 
 ## Features Implementadas ✨
 
-- [x] Arquitetura de microsserviços
+- [x] Arquitetura de microfrontend
 - [x] Containerização com Docker
 - [x] Sistema de autenticação
 - [x] API REST
-- [x] Estilização com TailwindCSS
+- [x] Estilização com Sass
 - [x] Configuração de ESLint
 - [x] Ambiente de desenvolvimento isolado
 - [x] Acessibilidade adequada ao Lighthouse
+- [x] Gerenciamento de estado com Zustand
+- [x] Pipeline com GitHub actions
 
 ## Ambientes
 
