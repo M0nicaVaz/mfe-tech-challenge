@@ -95,7 +95,6 @@ docker-compose down
 
 - ![Next.js API](https://img.shields.io/badge/Next.js-15.5.3-000000?style=flat-square&logo=next.js)
 - ![Docker](https://img.shields.io/badge/Docker-20.x-2496ED?style=flat-square&logo=docker)
-- ![SQLite](https://img.shields.io/badge/Better%20SQLite3-4169E1?style=flat&logo=sqlite)
 
 ## Features Implementadas ✨
 
